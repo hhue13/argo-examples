@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# for argo labels are required
+commonLabels:
+  fpx.io/guardian: l.nl.its.li.lending_retail.team.miami_intern.rabobank.nl
+  fpx.io/configuration-item: CI3019740
+
+configurations:
+  - ../../../kustomizeconfig.yml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: bin-configmap
+    files:
+      - "../../daily-batch-report.py"
+      - "../../helpers.py"
+      - "../../nightly-batch-report.py"
+  - name: environment-configmap
+    literals:
+      - ARGO_SECURE=true
+      - ARGO_INSECURE_SKIP_VERIFY=true
+      - ARGO_HTTP1=true
+      - ENVIRONMENT=base
+      - ARGO_SERVER=argo-play.apps.fpx.azure.rabodev.com:443
+
+bases:
+  - daily-report
+  - nightly-report
+
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization.json
