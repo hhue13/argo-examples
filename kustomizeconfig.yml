@@ -1,0 +1,46 @@
+# tlw-sam-batches/kustomizeconfig.yml
+# !! ensure that namespace is defined correctly in each relevant kustomize file, otherwise these substitutions will not work!!
+# e.g. set in kustomization.yml:
+
+# namespace: development
+
+namePrefix:
+  # add prefix (systemX-event-dev-) to names of generated workflows
+  - path: "spec/triggers[]/template/argoWorkflow/source/resource/metadata/generateName"
+
+nameReference:
+  # patch workflowtemplatename inside of a cronworkflow resource
+  - kind: WorkflowTemplate
+    fieldSpecs:
+    - path: spec/workflowSpec/workflowTemplateRef
+      kind: CronWorkflow
+    - path: spec/templates[]/dag/tasks[]/templateRef
+      kind: WorkflowTemplate
+    - path: spec/triggers[]/template/argoWorkflow/source/resource/spec/workflowTemplateRef/name
+      kind: Sensor
+  # patch configmapname inside of a workflowtemplate resource
+  - kind: ConfigMap
+    fieldSpecs:
+    - path: spec/templates[]/volumes[]/configMap
+      kind: WorkflowTemplate
+    - path: spec/templates[]/container/envFrom[]/configMapRef
+      kind: WorkflowTemplate
+    - path: spec/templates[]/sidecars[]/envFrom[]/configMapRef
+      kind: WorkflowTemplate
+  - kind: EventSource
+    fieldSpecs:
+    - path: spec/dependencies[]/eventSourceName
+      kind: Sensor
+  - kind: SecretProviderClass
+    fieldSpecs:
+    - path: spec/template/spec/volumes[]/csi/volumeAttributes/secretProviderClass
+      kind: EventSource
+
+# patch images in workflowtemplate resources using newTag and newImage
+images:
+  - path: spec/templates[]/container/image
+    kind: WorkflowTemplate
+  - path: spec/templates[]/sidecars[]/image
+    kind: WorkflowTemplate
+
+# yaml-language-server: $schema=https://json.schemastore.org/yamllint.json

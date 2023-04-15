@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+
+metadata:
+  name: workflowtemplate
+  namespace: development
+
+spec:
+
+  entrypoint: main
+
+  templates:
+    - name: main
+      container:
+        name: main
+        image: 'ghcr.io/argo_workflow_reporter:latest'
+        command:
+          - '/opt/bin/daily-report.py'
+        env:
+          - name: ARGO_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+        envFrom:
+          - configMapRef:
+              name: environment-configmap
+        resources:
+          limits:
+            cpu: 200m
+            memory: 200Mi
+          requests:
+            cpu: 200m
+            memory: 200Mi
+        volumeMounts:
+          - mountPath: /opt/bin
+            name: scripts
+      serviceAccountName: argo-user
+      volumes:
+        - name: scripts
+          configMap:
+            defaultMode: 0755
+            name: bin-configmap
+
+# yaml-language-server: $schema=https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json

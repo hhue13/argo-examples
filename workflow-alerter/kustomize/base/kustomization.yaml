@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: development
+
+resources:
+- argo-events-v1.7.6.yaml
+- argo-events-eventbus-default.yaml
+
+- argo-workflows-v3.4.5.yaml
+
+configMapGenerator:
+  - name: workflow-controller-configmap
+    behavior: merge
+    files:
+      - workflow-controller-configs/workflowDefaults
