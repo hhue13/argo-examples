@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: batches-complete-workflowtemplate
+  namespace: pega
+
+spec:
+  entrypoint: main
+
+  templates:
+    - name: main
+      dag:
+        tasks:
+          - name: call-c-template
+            templateRef:
+              name: workflowtemplate-c
+              template: main
+          - name: call-a-template
+            dependencies: [call-c-template]
+            templateRef:
+              name: workflowtemplate-a
+              template: main
+          - name: call-b-template
+            dependencies: [call-a-template]
+            templateRef:
+              name: workflowtemplate-b
+              template: main
+
