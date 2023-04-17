@@ -1,9 +1,4 @@
 # argo-examples/kustomizeconfig.yml
-# !! ensure that namespace is defined correctly in each relevant kustomize file, otherwise these substitutions will not work!!
-# e.g. set in kustomization.yml:
-
-# namespace: development
-
 namePrefix:
   # add prefix (systemX-event-dev-) to names of generated workflows
   - path: "spec/triggers[]/template/argoWorkflow/source/resource/metadata/generateName"
@@ -42,5 +37,10 @@ images:
     kind: WorkflowTemplate
   - path: spec/templates[]/sidecars[]/image
     kind: WorkflowTemplate
+
+# !! ensure that namespace is defined correctly in each relevant kustomize file, otherwise these substitutions will not work!!
+# e.g. set in kustomization.yml:
+
+# namespace: development
 
 # yaml-language-server: $schema=https://json.schemastore.org/yamllint.json
