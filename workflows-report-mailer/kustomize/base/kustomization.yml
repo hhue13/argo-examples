@@ -11,9 +11,9 @@ generatorOptions:
 configMapGenerator:
   - name: bin-configmap
     files:
-      - "../../daily-batch-report.py"
+      - "../../daily-report.py"
       - "../../helpers.py"
-      - "../../nightly-batch-report.py"
+      - "../../nightly-report.py"
   - name: environment-configmap
     literals:
       - ARGO_SECURE=true

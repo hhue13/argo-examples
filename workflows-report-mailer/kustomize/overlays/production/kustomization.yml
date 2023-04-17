@@ -9,6 +9,11 @@ commonLabels:
 bases:
 - ../../base
 
+images:
+  - name: 'ghcr.io/argo_workflow_reporter'
+    newName: 'internal.acme.corp/argo_workflow_reporter'
+    newTag: '1.0.0'
+
 configMapGenerator:
   - name: environment-configmap
     behavior: merge
