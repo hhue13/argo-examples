@@ -1,11 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# for argo labels are required
-commonLabels:
-  fpx.io/guardian: l.nl.its.li.lending_retail.team.miami_intern.rabobank.nl
-  fpx.io/configuration-item: CI3019740
-
 configurations:
   - ../../../kustomizeconfig.yml
 

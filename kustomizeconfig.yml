@@ -1,4 +1,4 @@
-# tlw-sam-batches/kustomizeconfig.yml
+# argo-examples/kustomizeconfig.yml
 # !! ensure that namespace is defined correctly in each relevant kustomize file, otherwise these substitutions will not work!!
 # e.g. set in kustomization.yml:
 
