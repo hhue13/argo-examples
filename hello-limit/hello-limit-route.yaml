@@ -1,0 +1,17 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: hello-limit
+    app.kubernetes.io/component: hello-limit
+    app.kubernetes.io/instance: hello-limit
+  name: hello-limit
+spec:
+  host: hello-limit.apps.cluster.base.domain
+  port:
+    targetPort: 8080-tcp
+  to:
+    kind: Service
+    name: hello-limit
+    weight: 100
+  wildcardPolicy: None
